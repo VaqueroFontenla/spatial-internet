@@ -1,0 +1,35 @@
+{
+  "name": "wiki-editors",
+  "version": "1.0.0",
+  "description": "Wikipedia editions data visualization application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VaqueroFontenla/spatial-internet.git"
+  },
+  "keywords": [
+    "websockets",
+    "data",
+    "visualization",
+    "ip",
+    "location"
+  ],
+  "author": "Loreto Vaquero Fontenla",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VaqueroFontenla/spatial-internet/issues"
+  },
+  "homepage": "https://github.com/VaqueroFontenla/spatial-internet#readme",
+  "dependencies": {
+    "cjs": "0.0.11",
+    "eventsource": "^1.0.7",
+    "iplocation": "^6.1.0",
+    "is-ip": "^3.1.0",
+    "knex": "^0.20.0",
+    "lowdb": "^1.0.0",
+    "ws": "^7.2.0"
+  }
+}
