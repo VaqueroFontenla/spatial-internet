@@ -1,5 +1,4 @@
-# Descrubriendo la componente espacial de internet
-
+# Descubriendo la componente espacial de internet
 Conferencia ESRI España 2019
 Track Desarrolladores
 
@@ -26,8 +25,9 @@ Las **Ips Privadas** se utilizan para identificar equipos o dispositivos conecta
 
 Este produce un ahorro considerable de direcciones. Sería imposible que todos dispositivo conectados a internet tuvieses una dirección Ip pública con las cantidad de direcciones disponibles.
 
-<center><img src="images/private-network.png"/></center>
-<center>Fuente: Ripe NCC</center>
+![private-network](images/private-network.png)
+
+ Fuente: Ripe NCC
 
 ### ¿Cómo se "traduce" o se "enruta" desde una Ip Privada a una Ip Pública?
 
@@ -39,30 +39,14 @@ Se realiza a través del NAT o Network Address Translation. Y que funciona de di
 
 - NAT con sobrecarga: El caso de NAT con sobrecarga o PAT (Port Address Translation) es el más común de todos y el más usado en los hogares. Consiste en utilizar una única dirección IP pública para mapear múltiples direcciones IPs privadas. Ventajas: por un lado, el cliente necesita contratar una sola dirección IP pública, lo que supone un importante ahorro económico; por otro lado se ahorra un número importante de IPs públicas, lo que demora el agotamiento de las mismas. Para poder hacer esto, el router hace uso de los 65.536 puertos de los que los protocolos TCP disponen para establecer conexiones. De modo que, cuando una máquina quiere establecer una conexión, el router guarda su IP privada y el puerto de origen y los asocia a la IP pública y un puerto al azar. Cuando llega información a este puerto elegido al azar, el router comprueba la tabla y lo reenvía a la IP privada y puerto que correspondan.
 
-<center><img src="images/router.png"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/NAT.png"/></center>
-<center>Fuente: www.xatakamovil.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fuente: https://www.xatakamovil.com/
-</center>
+![ROUTER](images/router.png)
 
+Fuente: www.xatakamovil.com 
 
-### ¿Quién es el responsable de asignar las direcciones Ips?
+![NAT](images/NAT.png)
 
-La **IANA** es responsable de administrar la zona raíz del Sistema de Nombres de Dominio (DNS), coordinar la asignación mundial de las direcciones del Protocolo de Internet (IP), y gestionar los sistemas de numeración IP. Básicamente, se encargan de mantener y administrar las funciones técnicas que posibilitan que Internet opere sin problemas.
+Fuente: https://www.xatakamovil.com/
 
-IANA no puede satisfacer la demanda de asignación de direcciones IPs debido al gran volumen de dispositivos que crece día a día, por lo que la totalidad de la gestión se administran mediante organizacionesa nivel regional, estableciendo los Registros Regionales de Internet (RIR), estas cinco entidades son: AFRINIC, APNIC, ARIN, LACNIC, RIPE NCC
-
-<center><img src="images/RIR.png"/></center>
-<center>Fuente: Ripe NCC</center>
-
-Los **Registros Regionales de Internet** (RIRs) administran, distribuyen y registran todos los recursos de números de Internet (direcciones IPv4 e IPv6 y Números de Sistemas Autónomos) dentro de sus respectivas regiones.
-Son asociaciones sin ánimos de lucro y son miembros en su respectiva región de acuerdo con las leyes del país en el que se encuentra. Son gobernados por Juntas elegidas por sus miembros y son financiadas por los honorarios pagados por las organizaciones participantes. 
-
-**RIPE NCC** es la organización responsable de asignar estos recursos en nuestra área geográfica.
-
-A su vez, la asociación **RIPE NNCC** está conformado por lo que se denominan Local Internet Registry (LIR). Cada **LIR** o miembro de la **RIPI NCC** es responsable de la distribución del espacio y el registro de un rango de direcciones a nivel local, además de asegurar que las políticas y procedimientos se sigan a nivel local. 
-Las organizaciones que se convierten en LIR son principalmente proveedores de servicios de Internet (ISP) que asignan estas direcciones a sus clientes, organizaciones de telecomunicaciones y empresariales, así como a instituciones académicas. 
-
-<center><img src="images/IANA.png"/></center>
-<center>Fuente: Ripe NCC</center>
 
 ### Ipv4 vs Ipv6
 
@@ -76,6 +60,27 @@ A medida que pasa el tiempo aparecen más y más dispositivos conectados que req
 Para solventar ésto se diseño el protocolo Ipv6. Este protocolo  proporciona un rango de 128 bits: 2^128 direcciones a disposición de 340 sextillones de dispositivos.
 
 En un principio, uno podría imaginarse que el problema estaría solventado, pero que tener en cuenta que cuando se diseñó la versión 6 del protocolo IP no se hizo compatible con la anterior. Esto se traduce en que si un usuario se conecta a internet a través del protocolo Ipv6 no podrá comunicarse con la mayor parte de la red, que funciona con Ipv4. La única forma de mantenerse conectado es que usen ambas versiones, simultáneamente (**dual stack**).
+
+### ¿Quién es el responsable de asignar las direcciones Ips?
+
+La **IANA** es responsable de administrar la zona raíz del Sistema de Nombres de Dominio (DNS), coordinar la asignación mundial de las direcciones del Protocolo de Internet (IP), y gestionar los sistemas de numeración IP. Básicamente, se encargan de mantener y administrar las funciones técnicas que posibilitan que Internet opere sin problemas.
+
+IANA no puede satisfacer la demanda de asignación de direcciones IPs debido al gran volumen de dispositivos que crece día a día, por lo que la totalidad de la gestión se administran mediante organizacionesa nivel regional, estableciendo los Registros Regionales de Internet (RIR), estas cinco entidades son: AFRINIC, APNIC, ARIN, LACNIC, RIPE NCC
+
+![RIR](images/RIR.png)
+   Fuente: Ripe NCC
+
+Los **Registros Regionales de Internet** (RIRs) administran, distribuyen y registran todos los recursos de números de Internet (direcciones IPv4 e IPv6 y Números de Sistemas Autónomos) dentro de sus respectivas regiones.
+Son asociaciones sin ánimos de lucro y son miembros en su respectiva región de acuerdo con las leyes del país en el que se encuentra. Son gobernados por Juntas elegidas por sus miembros y son financiadas por los honorarios pagados por las organizaciones participantes. 
+
+**RIPE NCC** es la organización responsable de asignar estos recursos en nuestra área geográfica.
+
+A su vez, la asociación **RIPE NNCC** está conformado por lo que se denominan Local Internet Registry (LIR). Cada **LIR** o miembro de la **RIPI NCC** es responsable de la distribución del espacio y el registro de un rango de direcciones a nivel local, además de asegurar que las políticas y procedimientos se sigan a nivel local. 
+Las organizaciones que se convierten en LIR son principalmente proveedores de servicios de Internet (ISP) que asignan estas direcciones a sus clientes, organizaciones de telecomunicaciones y empresariales, así como a instituciones académicas. 
+
+[IANA](images/IANA.png)
+   Fuente: Ripe NCC
+
 
 
 ### Sistemas autónomos
@@ -95,17 +100,17 @@ Consulta [registro de Números de Sistemas Autónomos](https://www.iana.org/assi
 Está compuesto por tres partes con diferentes funciones:
 
 - Cliente DNS: está instalado en el cliente (es decir, nosotros) y realiza peticiones de resolución de nombres a los servidores DNS.
-- Servidor DNS: son los que contestan las peticiones y resuelven los nombres mediante un sistema estructurado en árbol. Las direcciones DNS que ponemos en la configuración de la conexión, son las direcciones de los Servidores DNS.
 - Zonas de autoridad: son servidores o grupos de ellos que tienen asignados resolver un conjunto de dominios determinado (como los .es o los .org).
+- Servidor DNS: son los que contestan las peticiones y resuelven los nombres mediante un sistema estructurado en árbol. Las direcciones DNS que ponemos en la configuración de la conexión, son las direcciones de los Servidores DNS.
 
-<center><img src="images/DNS.png"/></center>
-<center>Fuente: https://www.xatakamovil.com/</center>
+![DNS](images/DNS.png)
+Fuente: https://www.xatakamovil.com/
 
 La resolución de nombres utiliza una estructura en árbol, mediante la cual los diferentes servidores DNS de las zonas de autoridad se encargan de resolver las direcciones de su zona, y sino se lo solicitan a otro servidor que creen que conoce la dirección. 
 
 Proceso de una petición DNS sencilla: 
 1. El Sistema Operativo comprueba que se haya ejecutado esta petición y entonces realiza la petición al servidor DNS configurado manualmente o mediante DHCP y es el que se denomina servidor raíz (ROOT-SERVER)
-2. El servidor DNS que tenemos configurado tampoco tiene memorizada la dirección IP de ese dominio, por lo que realiza una petición al servidor encargado de la zona de autoridad (ejemplo .com). Servidor de nombres de dominio de primer nivel (TLD)  ¿Gateway?
+2. El servidor DNS que tenemos configurado tampoco tiene memorizada la dirección IP de ese dominio, por lo que realiza una petición al servidor encargado de la zona de autoridad (ejemplo .com). Servidor de nombres de dominio de primer nivel (TLD).
 3. El servidor encargado de la zona de autoridad (.com) tiene una tabla de datos en los que están almacenados las direcciones IP de las máquinas y sus dominios. Lo busca y le responde al servidor DNS que está configurado en nuestra máquina con una dirección IP.
 4. Por último, ahora que conocemos la direccíon IP de nuestra consulta es el propio navegador el que realiza la consulta con la Ip resulta.
 
@@ -148,6 +153,8 @@ Los coches de Google, además de fotografíar las calles de muchas ciudades para
 #### Demo visualización de datos
 - https://github.com/umaar/wiki-globe
 - BBDD https://iptoasn.com/
+- https://developers.arcgis.com/
+
 
 #### Información
 - RIPE NCC: https://ripe.net
