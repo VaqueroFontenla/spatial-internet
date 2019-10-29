@@ -3,74 +3,170 @@ const FileSync = require('lowdb/adapters/FileSync');
 const iplocation = require('iplocation').default;
 const EventSource = require('eventsource');
 const isIp = require('is-ip');
-
+const fetch = require("node-fetch");
+const DATA = require('../assets/backUp_data.json');
 const adapter = new FileSync('../assets/data.json')
 const db = low(adapter);
 
-const ipAPIURL = 'https://ipapi.co/json';
 
-const wikimediaStreamURL = 'https://stream.wikimedia.org/v2/stream/recentchange';
+//// GEOLOCALIZAR CON IPLOCATION ////
 
-const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8000 });
-const connections = [];
-    wss.on('connection', function connection(ws) {
-        connections.push(ws)
-});
+	const ipAPIURL = 'https://ipapi.co/json';
+	const wikimediaStreamURL = 'https://stream.wikimedia.org/v2/stream/recentchange';
 
-var i = 1;
+	const WebSocket = require('ws');
+	const wss = new WebSocket.Server({ port: 8000 });
+	const connections = [];
+		wss.on('connection', function connection(ws) {
+			connections.push(ws)
+	});
 
-db.defaults({entries: []}).write()
+	var i = 1;
 
-async function onMessage(e) {
-	let data, location;
+   //Escribir los datos en un .json
+	db.defaults({entries: []}).write()
 
-	try {
-		data = JSON.parse(e.data)
-	} catch (err) {
-		console.log('Error parsing data', err);
-		return;
+	async function onMessage(e) {
+		let data, location;
+
+		try {
+			data = JSON.parse(e.data)
+		} catch (err) {
+			console.log('Error parsing data', err);
+			return;
+		}
+
+		const ipAddress = data.user;
+
+		if (!data || !isIp(ipAddress)) {
+			return;
+		}
+
+		try {
+			location = await iplocation(ipAddress, [ipAPIURL]);
+		} catch (err) {
+			console.log('IP Location Error:', err);
+			return;
+		}
+
+		const item = {
+			data,
+			location
+		};
+		
+
+		const geoItem = {
+			ip: item.location.ip,
+			lat: item.location.latitude,
+			lon: item.location.longitude,
+			ObjectID: i++
+		}
+
+		connections.map( ws => ws.send(JSON.stringify(geoItem)));
+		db.get('entries').push(item).write();
 	}
 
-	const ipAddress = data.user;
+	function init() {
+		console.log('Connecting to ', wikimediaStreamURL);
 
-	if (!data || !isIp(ipAddress)) {
-		return;
+		var es = new EventSource(wikimediaStreamURL)
+		es.addEventListener('message', onMessage)
 	}
 
-	try {
-		location = await iplocation(ipAddress, [ipAPIURL]);
-	} catch (err) {
-		console.log('IP Location Error:', err);
-		return;
-	}
+	init();
 
-	// We receive around 10k edits per hour
+//// GEOLOCALIZAR CON IPLOCATION ////
 
-	const item = {
-		data,
-		location
-    };
-    
+	// const ipAPIURL = 'http://ip-api.com/json';
+	// const wikimediaStreamURL = 'https://stream.wikimedia.org/v2/stream/recentchange';
 
-	const geoItem = {
-        ip: item.location.ip,
-        lat: item.location.latitude,
-        lon: item.location.longitude,
-        ObjectID: i++
-    }
+	// const WebSocket = require('ws');
+	// const wss = new WebSocket.Server({ port: 8000 });
+	// const connections = [];
+	// 	wss.on('connection', function connection(ws) {
+	// 		connections.push(ws)
+	// });
 
-    connections.map( ws => ws.send(JSON.stringify(geoItem)));
-	db.get('entries').push(item).write();
-}
+	// var i = 1;
 
-function init() {
-	console.log('Connecting to ', wikimediaStreamURL);
-
-	var es = new EventSource(wikimediaStreamURL)
-	es.addEventListener('message', onMessage)
-}
+	// db.defaults({entries: []}).write()
 
 
+	// async function searchIpLocation(ipAddress) {
+	// 	var url = `${ipAPIURL}/${ipAddress}`;
+	// 	let response = await fetch(url);
+	// 	let json = await response.json()
+	// 	return json
+	// }
 
-init();
+	// async function onMessage(e) {
+	// 	let data, location;
+
+	// 	try {
+	// 		data = JSON.parse(e.data)
+	// 	} catch (err) {
+	// 		console.log('Error parsing data', err);
+	// 		return;
+	// 	}
+
+	// 	const ipAddress = data.user;
+
+	// 	if (!data || !isIp(ipAddress)) {
+	// 		return;
+	// 	}
+
+	// 	try {
+	// 		//location = await iplocation(ipAddress, [ipAPIURL]);
+	// 		location = await searchIpLocation(ipAddress);
+	// 	} catch (err) {
+	// 		console.log('IP Location Error:', err);
+	// 		return;
+	// 	}
+
+	// // We receive around 10k edits per hour
+
+	// 	const item = {
+	// 		data,
+	// 		location
+	// 	};
+		
+	// 	const geoItem = {
+	// 		ip: item.location.query,
+	// 		lat: item.location.lat,
+	// 		lon: item.location.lon,
+	// 		ISP: item.location.isp,
+	// 		AS: item.location.as,
+	// 		ObjectID: i++
+	// 	}
+
+	// 	connections.map( ws => ws.send(JSON.stringify(geoItem)));
+	// 	db.get('entries').push(item).write();
+	// }
+
+	// function init() {
+	// 	console.log('Connecting to ', wikimediaStreamURL);
+
+	// 	var es = new EventSource(wikimediaStreamURL)
+	// 	es.addEventListener('message', onMessage)
+	// }
+
+	// init();
+
+
+//// NO FUNCIONA NADA Y TENEMOS QUE TIRAR DE LOCAL ////
+
+	// const WebSocket = require('ws');
+	// const wss = new WebSocket.Server({ port: 8000 });
+
+	// wss.on('connection', function connection(ws) {
+	// 	ws.on('message', function incoming(message) {
+	// 	  console.log('received: %s', message);
+	// 	});
+	// 	setInterval((ws) => {
+	// 	  ws.send(JSON.stringify({...DATA.entries.shift(), ObjectID : 1}));
+	// 	},2000,ws);
+	  
+	//   });
+
+
+	

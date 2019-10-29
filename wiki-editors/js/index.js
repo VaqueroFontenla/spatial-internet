@@ -1,49 +1,47 @@
 require([
-    "esri/config",
-    "esri/Map",
-    "esri/views/MapView",
-    "esri/layers/GraphicsLayer",
-    "esri/PopupTemplate",
-    "esri/Graphic"
+		"esri/config",
+		"esri/Map",
+		"esri/views/SceneView",
+		"esri/views/MapView",
+		"esri/layers/GraphicsLayer",
+		"esri/PopupTemplate",
+		"esri/Graphic"
 ], function(
-    esriConfig,
-    Map,
-    MapView,
-    GraphicsLayer,
-    PopupTemplate,
-    Graphic
+		esriConfig,
+		Map,
+		SceneView,
+		MapView,
+		GraphicsLayer,
+		PopupTemplate,
+		Graphic
 ) {
 
     var map = new Map({
-      basemap: "dark-gray"
+      	basemap: "dark-gray"
     });
 
     var view = new MapView({
-      center: [7.7376486,42.3563571],
-      zoom: 5,
-      map: map,
-      container: "viewDiv"
+		center: [-30,40],
+		zoom: 3,
+		map: map,
+		container: "viewDiv"
     });
 
     var layer = new GraphicsLayer({
-      graphics : []
+      	graphics : []
     });
 
     map.add(layer);
 
     var popupTemplate = new PopupTemplate({
-      title: "Tracking Position",
-      content: "{*}"
+		title: "Tracking Position",
+		content: "{*}"
     });
 
     var markerSymbol = {
-      type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
-      color: [226, 119, 40],
-      outline: {
-        // autocasts as new SimpleLineSymbol()
-        color: [255, 255, 255],
-        width: 2
-      }
+		type: "simple-marker", 
+		color: [0, 255, 255],
+		outline: null
     };
 
     function graphicFromData(obj) {
@@ -52,22 +50,44 @@ require([
             type : "point",
             x : obj.lon,
             y : obj.lat
-        };
-
+		};
+		
+   	
         let position = new Graphic({
             geometry: point,
             popupTemplate : popupTemplate,
             symbol : markerSymbol,
             attributes : {
             ObjectID : obj.ObjectID,
-            ip : obj.ip,
-            lat : obj.lat,
-            lon : obj.lon,
-            ASN: `<a href="https://api.iptoasn.com/v1/as/ip/${obj.ip}">${obj.ip}</a>`,
+            ip : obj.location.ip,
+            lat : obj.location.latitude,
+            lon : obj.location.longitude,
+            ASN: `<a href="https://api.iptoasn.com/v1/as/ip/${obj.ip}">Consulta el ASN</a>`,
             IPv4: /\./.test(obj.ip),
             }
-        });
+		});
+		
+		// Para levantar en local
 
+		// let point = {
+        //     type : "point",
+        //     x : obj.location.longitude,
+        //     y : obj.location.latitude,
+		// };
+		
+		// let position = new Graphic({
+        //     geometry: point,
+        //     popupTemplate : popupTemplate,
+        //     symbol : markerSymbol,
+        //     attributes : {
+        //     ObjectID : obj.ObjectID,
+        //     ip : obj.location.ip,
+        //     lat : obj.location.latitude,
+        //     lon : obj.location.longitude,
+        //     ASN: `<a href="https://api.iptoasn.com/v1/as/ip/${obj.location.ip}">Consulta el ASN</a>`,
+        //     IPv4: /\./.test(obj.location.ip),
+        //     }
+        // });
       return position;
     }
 

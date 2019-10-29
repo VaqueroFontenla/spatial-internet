@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Wikipedia editions data visualization application",
   "main": "server.js",
-  "scripts": {
-    
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/VaqueroFontenla/spatial-internet.git"
@@ -28,6 +26,7 @@
     "iplocation": "^6.1.0",
     "is-ip": "^3.1.0",
     "lowdb": "^1.0.0",
+    "node-fetch": "^2.6.0",
     "ws": "^7.2.0"
   }
 }
