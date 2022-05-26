@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/VaqueroFontenla/spatial-internet#readme",
   "dependencies": {
-    "eventsource": "^1.0.7",
+    "eventsource": "^2.0.2",
     "iplocation": "^6.1.0",
     "is-ip": "^3.1.0",
     "lowdb": "^1.0.0",
